@@ -37,7 +37,7 @@ services:
     # 原版镜像
     # image: registry.cn-hangzhou.aliyuncs.com/wenjian_oj/judgeserver
     # 开发版镜像
-    image: luyencode/judge-server
+    image: kunguyenqt/judge-server
     # 稳定版镜像
     container_name: judge-server
     restart: always
@@ -64,8 +64,7 @@ services:
       # - judger_debug=1
   
   oj-backend:
-    #image: registry.cn-qingdao.aliyuncs.com/wenjian_oj/backend
-    image: luyencode/oj-backend
+    image: kunguyenqt/oj-backend
     container_name: oj-backend
     restart: always
     depends_on:
