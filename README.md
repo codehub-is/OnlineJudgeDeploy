@@ -5,7 +5,7 @@ Website dựa trên mã nguồn mở [QDOJ](https://github.com/QingdaoU/OnlineJu
 ### Kiến trúc
 
 Hệ thống Online Judge này bao gồm 3 module:
-- Judger: https://github.com/codehub-is/JudgeServer ([Python wrapper](https://github.com/codehub-is/JudgeServer))
+- Judger: https://github.com/codehub-is/JudgeServer
 - Web Backend: https://github.com/codehub-is/OnlineJudge
 - Web Frontend: https://github.com/codehub-is/OnlineJudgeFE
 
@@ -30,7 +30,7 @@ Các module trên đều được đóng gói Docker và đã đẩy lên Docker
 3. Clone repo
 
     ```bash
-    git clone -b 2.0 https://github.com/luyencode/OnlineJudgeDeploy.git && cd OnlineJudgeDeploy
+    git clone -b 2.0 https://github.com/codehub-is/OnlineJudgeDeploy.git && cd OnlineJudgeDeploy
     ```
 
 4. Khởi động
