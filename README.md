@@ -1,13 +1,13 @@
-Live site: https://luyencode.net/
+Live site: https://hubcode.ispace.edu.vn/
 
-Phiên bản cải tiến (tùy chỉnh + thêm tiếng Việt), dựa trên mã nguồn mở [QDOJ](https://github.com/QingdaoU/OnlineJudge), nhánh clone của tác giả [Harry-zklcdc](https://github.com/Harry-zklcdc/OnlineJudge)
+Website dựa trên mã nguồn mở [QDOJ](https://github.com/QingdaoU/OnlineJudge), nhánh clone của tác giả [nguyenvanhieuvn](https://github.com/luyencode/OnlineJudge)
 
 ### Kiến trúc
 
 Hệ thống Online Judge này bao gồm 3 module:
-- Judger: https://github.com/luyencode/Judger ([Python wrapper](https://github.com/luyencode/JudgeServer))
-- Web Backend: https://github.com/luyencode/OnlineJudge
-- Web Frontend: https://github.com/luyencode/OnlineJudgeFE
+- Judger: https://github.com/codehub-is/JudgeServer ([Python wrapper](https://github.com/codehub-is/JudgeServer))
+- Web Backend: https://github.com/codehub-is/OnlineJudge
+- Web Frontend: https://github.com/codehub-is/OnlineJudgeFE
 
 Các module trên đều được đóng gói Docker và đã đẩy lên Docker Hub. Trong trường hợp cần thiết, bạn có thể sửa từng thành phần!
 
@@ -51,3 +51,36 @@ Sau đó, hãy kiểm tra bằng lệnh `docker ps -a`，nếu không có contai
 Truy cập cổng HTTP 80 hoặc cổng HTTPS 443 của máy chủ thông qua trình duyệt và bạn có thể bắt đầu sử dụng. Đường dẫn trang quản lý là `/admin`, tên người dùng quản trị viên được tự động thêm vào trong quá trình cài đặt là `root` và mật khẩu là `rootroot`. **Vui lòng thay đổi mật khẩu ngay**.
 
 Tài liệu: http://opensource.qduoj.com/
+
+### Backup
+
+- Chạy sript trong thư mục backup để backup database
+- Backup thư mục data/backend/public và data/backend/test_case
+
+### Restore
+
+1. Restore lại database
+    ```bash
+    docker cp db_backup_xxxxxxx.sql oj-postgres:/root
+    docker exec -it oj-postgres bash
+    psql -U onlinejudge
+    DROP SCHEMA public CASCADE;
+    CREATE SCHEMA public;
+    GRANT ALL ON SCHEMA public TO onlinejudge;
+    GRANT ALL ON SCHEMA public TO public;
+    \q
+    psql -U onlinejudge -f /root/db_backup_xxxxxx.sql onlinejudge
+    ```
+2. Restore lại data
+data/backend/public và data/backend/test_case
+
+### Dev Frontend
+- Chỉnh sửa và build FE, nén lại thành file dist.zip, tạo release
+```bash
+curl -L  $(curl -s  https://api.github.com/repos/codehub-is/OnlineJudgeFE/releases/latest | grep /dist.zip | cut -d '"' -f 4) -o dist.zip && \
+    unzip dist.zip && \
+    rm dist.zip
+```
+- Server tải về, giải nén ./dev/dist
+- docker-compose tại oj-backend, thêm volumns ```$PWD/dev/dist:/app/dist```
+- Chạy lại docker-compose để update thay đổi
